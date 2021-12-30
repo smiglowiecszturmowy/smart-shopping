@@ -6,11 +6,13 @@ namespace SmartShoppingXamarin.View
 {
 	public partial class MainPage : ContentPage
 	{
+		public MainPageViewModel ViewModel { get; }
+		
 		public MainPage()
 		{
 			InitializeComponent();
 
-			BindingContext = App.GetViewModel<MainPageViewModel>();
+			ViewModel = App.GetViewModel<MainPageViewModel>();
 		}
 	}
 }

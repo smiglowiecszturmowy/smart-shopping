@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using SmartShoppingXamarin.Annotations;
 using SmartShoppingXamarin.Model;
 using SmartShoppingXamarin.Services.HomeIngredients;
+using SmartShoppingXamarin.View;
 using Xamarin.Forms;
 
 namespace SmartShoppingXamarin.ViewModel
 {
-	public class MainPageViewModel : INotifyPropertyChanged
+	public sealed class MainPageViewModel : INotifyPropertyChanged
 	{
-		private readonly IHomeIngredientsService _homeIngredientsService;
+		private readonly Lazy<INavigation> _navigation;
 
 		private ObservableCollection<HomeIngredient> _homeIngredients;
 
@@ -27,36 +28,26 @@ namespace SmartShoppingXamarin.ViewModel
 			}
 		}
 
-		public MainPageViewModel(IHomeIngredientsService homeIngredientsService)
+		public MainPageViewModel(IHomeIngredientsService homeIngredientsService, Lazy<INavigation> navigation)
 		{
-			_homeIngredientsService = homeIngredientsService;
+			_navigation = navigation;
 
-			Task.Run(async () => HomeIngredients = new ObservableCollection<HomeIngredient>(await _homeIngredientsService.FindAll()));
+			Task.Run(async () => HomeIngredients = new ObservableCollection<HomeIngredient>(await homeIngredientsService.FindAll()));
 
-			AddCommand = new Command<object>(OnNew);
+			AddCommand = new Command(OnAddProduct);
 		}
 
-		private async void OnNew(object obj)
+		private async void OnAddProduct()
 		{
-			Console.WriteLine($"Saving entry {obj}");
-			try
-			{
-				var entry = (Entry)obj;
-				await _homeIngredientsService.Add(new HomeIngredient { Name = entry.Text });
-				HomeIngredients = new ObservableCollection<HomeIngredient>(await _homeIngredientsService.FindAll());
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine($"Error saving entry {e}");
-			}
+			await _navigation.Value.PushAsync(new AddProductView());
 		}
 
-		public Command<object> AddCommand { get; set; }
+		public Command AddCommand { get; set; }
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		[NotifyPropertyChangedInvocator]
-		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+		private void OnPropertyChanged([CallerMemberName] string propertyName = null)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}

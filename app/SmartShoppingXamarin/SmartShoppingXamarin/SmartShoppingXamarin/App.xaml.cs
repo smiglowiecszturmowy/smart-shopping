@@ -26,13 +26,14 @@ namespace SmartShoppingXamarin
 			MainPage = new NavigationPage(new MainPage());
 		}
 
-		private static void SetupServices()
+		private void SetupServices()
 		{
 			var services = new ServiceCollection();
-
+			
 			ApplicationDbContext.IsMigration = false;
 			services.AddDbContext<ApplicationDbContext>();
 			services.AddSingleton<IHomeIngredientsService, HomeIngredientsDatabaseService>();
+			services.AddSingleton(new Lazy<INavigation>(() => MainPage.Navigation));
 
 			services.AddSingleton<MainPageViewModel>();
 
