@@ -13,6 +13,7 @@ namespace SmartShoppingXamarin.ViewModel
 {
 	public sealed class MainPageViewModel : INotifyPropertyChanged
 	{
+		private readonly IHomeIngredientsService _homeIngredientsService;
 		private readonly Lazy<INavigation> _navigation;
 
 		private ObservableCollection<HomeIngredient> _homeIngredients;
@@ -28,12 +29,15 @@ namespace SmartShoppingXamarin.ViewModel
 			}
 		}
 
+		public async Task RefreshList()
+		{
+			HomeIngredients = new ObservableCollection<HomeIngredient>(await _homeIngredientsService.FindAll());
+		}
+
 		public MainPageViewModel(IHomeIngredientsService homeIngredientsService, Lazy<INavigation> navigation)
 		{
+			_homeIngredientsService = homeIngredientsService;
 			_navigation = navigation;
-
-			Task.Run(async () => HomeIngredients = new ObservableCollection<HomeIngredient>(await homeIngredientsService.FindAll()));
-
 			AddCommand = new Command(OnAddProduct);
 		}
 

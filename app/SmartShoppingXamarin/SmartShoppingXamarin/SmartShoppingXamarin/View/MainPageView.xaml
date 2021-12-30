@@ -10,7 +10,7 @@
     
     <StackLayout>
         <ListView ItemsSource="{Binding Path=HomeIngredients}"></ListView>
-        <Button Command="{Binding Path=AddCommand}" />
+        <Button Command="{Binding Path=AddCommand}" Text="Dodaj produkt" Padding="10" />
     </StackLayout>
 
 </ContentPage>

@@ -1,5 +1,4 @@
-﻿using System;
-using SmartShoppingXamarin.ViewModel;
+﻿using SmartShoppingXamarin.ViewModel;
 using Xamarin.Forms;
 
 namespace SmartShoppingXamarin.View
@@ -13,6 +12,11 @@ namespace SmartShoppingXamarin.View
 			InitializeComponent();
 
 			ViewModel = App.GetViewModel<MainPageViewModel>();
+		}
+
+		protected override void OnAppearing()
+		{
+			_ = ViewModel.RefreshList();
 		}
 	}
 }

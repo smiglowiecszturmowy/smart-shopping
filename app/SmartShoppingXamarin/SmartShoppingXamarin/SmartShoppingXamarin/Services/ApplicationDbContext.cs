@@ -6,52 +6,58 @@ using Xamarin.Forms;
 
 namespace SmartShoppingXamarin.Services
 {
-	public class ApplicationDbContext : DbContext
-	{
-		private const string DatabaseName = "sqlite.db";
+    public class ApplicationDbContext : DbContext
+    {
+        private const string DatabaseName = "sqlite.db";
 
-		public static bool IsMigration = true;
+        public static bool IsMigration = true;
+        public static Func<string, string> DbPath;
 
-		public DbSet<HomeIngredient> HomeIngredients { get; set; }
+        public DbSet<HomeIngredient> HomeIngredients { get; set; }
 
-		public ApplicationDbContext(DbContextOptions options) : base(options)
-		{
-		}
+        public ApplicationDbContext(DbContextOptions options) : base(options)
+        {
+        }
 
-		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-		{
-			if (IsMigration)
-				return;
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (IsMigration)
+                return;
 
-			string databasePath;
-			switch (Device.RuntimePlatform)
-			{
-				case Device.iOS:
-					SQLitePCL.Batteries_V2.Init();
-					databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "..", "Library", DatabaseName);
-					break;
-				case Device.Android:
-					databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), DatabaseName);
-					break;
-				default:
-					throw new NotImplementedException("Platform not supported");
-			}
+            string databasePath;
+            switch (Device.RuntimePlatform)
+            {
+                case Device.iOS:
+                    SQLitePCL.Batteries_V2.Init();
+                    databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "..",
+                        "Library", DatabaseName);
+                    break;
+                case Device.Android:
+                    databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal),
+                        DatabaseName);
+                    break;
+                case Device.UWP:
+                    databasePath = DbPath.Invoke(DatabaseName);
+                    break;
+                default:
+                    throw new NotImplementedException("Platform not supported");
+            }
 
-			optionsBuilder.UseSqlite($"Filename={databasePath}");
-		}
+            optionsBuilder.UseSqlite($"Filename={databasePath}");
+        }
 
-		#region Required
+        #region Required
 
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
-		{
-			modelBuilder.Entity<HomeIngredient>(b =>
-			{
-				b.Property(x => x.Name)
-					.IsRequired();
-				b.HasKey(x => x.Id);
-			});
-		}
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<HomeIngredient>(b =>
+            {
+                b.Property(x => x.Name)
+                    .IsRequired();
+                b.HasKey(x => x.Id);
+            });
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }
