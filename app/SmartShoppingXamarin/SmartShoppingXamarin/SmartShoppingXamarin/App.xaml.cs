@@ -25,7 +25,8 @@ namespace SmartShoppingXamarin
 			SetupServices();
 			MigrateDb();
 
-			MainPage = new NavigationPage(new MainPage());
+			// MainPage = new NavigationPage(new MainPage());
+			MainPage = new NavigationPage(new AddProductView());
 		}
 
 		private void SetupServices()

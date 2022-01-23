@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SmartShoppingXamarin.View.AddProduct.ProductNameView"
+             BindingContext="{Binding Source={RelativeSource Self}, Path=ViewModel}">
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="Center">
+            <Entry Text="{Binding ProductName}" Placeholder="Ingredient"></Entry>
+            <Button Command="{Binding Path=ConfirmNameCommand}" Text="Dalej" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

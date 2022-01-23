@@ -1,16 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SmartShoppingXamarin.View.AddProductView"
-             BindingContext="{Binding Source={RelativeSource Self}, Path=ViewModel}">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Hello, world!"
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="CenterAndExpand" />
-            <Entry x:Name="Entry" Placeholder="Ingredient"></Entry>
-            <Button Command="{Binding Path=AddCommand}" CommandParameter="{x:Reference Entry}" Text="Dodaj" />
-        </StackLayout>
-    </ContentPage.Content>
-</ContentPage>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            x:Class="SmartShoppingXamarin.View.AddProductView"
+            xmlns:local="clr-namespace:SmartShoppingXamarin.View.AddProduct"
+            BindingContext="{Binding Source={RelativeSource Self}, Path=ViewModel}">
+
+    <local:ProductNameView Title="Nazwa" IsEnabled="{Binding ProductNameEnabled}" IsVisible="{Binding ProductNameEnabled}" />
+    <local:ProductQuantityView Title="Ilość" IsEnabled="{Binding ProductQuantityEnabled}" IsVisible="{Binding ProductQuantityEnabled}" />
+    <local:ProductExpirationDate Title="Data przydatności" IsEnabled="{Binding ProductExpirationDateEnabled}" IsVisible="{Binding ProductExpirationDateEnabled}" />
+</TabbedPage>

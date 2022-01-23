@@ -8,6 +8,7 @@
         <OutputType>Library</OutputType>
         <RootNamespace>SmartShoppingXamarin.Android</RootNamespace>
         <AssemblyName>SmartShoppingXamarin.Android</AssemblyName>
+        <Deterministic>True</Deterministic>
         <AndroidApplication>True</AndroidApplication>
         <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
         <AndroidResgenClass>Resource</AndroidResgenClass>
@@ -16,7 +17,11 @@
         <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
         <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
         <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
+        <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
+        <AndroidUseAapt2>true</AndroidUseAapt2>
         <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
+        <NuGetPackageImportStamp>
+        </NuGetPackageImportStamp>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <DebugSymbols>true</DebugSymbols>
@@ -46,7 +51,8 @@
         <Reference Include="System.Xml"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012"/>
+        <PackageReference Include="Xamarin.Forms" Version="5.0.0.2196"/>
+        <PackageReference Include="Xamarin.Essentials" Version="1.7.0"/>
     </ItemGroup>
     <ItemGroup>
         <Compile Include="MainActivity.cs"/>
